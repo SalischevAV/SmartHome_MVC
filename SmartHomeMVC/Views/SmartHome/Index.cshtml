@@ -1,0 +1,115 @@
+﻿@using NewSmartHome.DeviceClasses
+@using NewSmartHome.DeviceInterfaces
+@using NewSmartHome.Interfaces;
+@using NewSmartHome.ServiceClasses;
+@model System.Collections.Generic.IDictionary<string, Device>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "SmartHome"))
+{
+    foreach (var item in Model)
+
+    {
+        <div class="smartDeviceDrow">
+            <span>Устройство: @item.Value.GetType().Name <br /> Название: @item.Key</span>
+            <input type="submit" name="power" value="power" class="powerState">
+
+            @if (item.Value is IChannelable)
+            {
+                <div class="DivChannel">
+                    Канал:
+                    @using (Html.BeginForm())
+                    {
+                    <script>
+                            function bindingRane() {
+                                channelValue = document.getElementById("@("channelRangeValue" + item.Key)").value;
+                                textBox = document.getElementById("@("channelTextValue" + item.Key)");
+                                textBox.value = channelValue;
+                            }
+                    </script>
+                        <input type="range" min="0" max="100" step="1" name="Channel" value="0" id="@("channelRangeValue" + item.Key)" oninput="bindingRane()">
+                        <input type="text" class="channelValue" id="@("channelTextValue" + item.Key)" value="0">
+                        
+                        
+                    }
+                </div>
+
+            }
+            @if (item.Value is IDoorable)
+            {
+                <div class="DivDoor">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Partial("DoorAble")
+                    }
+                </div>
+
+            }
+
+            @if (item.Value is IFridgeable)
+            {
+                <div class="DivFridge">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Partial("FridgeAble")
+                    }
+                </div>
+
+            }
+
+            @if (item.Value is ILightable)
+            {
+                <div class="DivLight">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Partial("LightAble")
+                    }
+                </div>
+
+            }
+
+            @if (item.Value is IModeable)
+            {
+                <div class="DivMode">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.Partial("ModeAble")
+                    }
+                </div>
+
+            }
+
+            @if (item.Value is IVolumeable)
+            {
+                <div class="DivVolume">
+                    Громкость:
+                    @using (Html.BeginForm())
+                    {
+                        <input type="range" min="0" max="100" step="1" name="Value" value="0" id=@("volumeRange" + item.Key) oninput="sizePic()">
+                        <input type="text" class="channelValue" id=@("volumeValue" + item.Key)>
+                    }
+                </div>
+
+            }
+
+
+
+            <input type="submit" name="del" value="удалить" class="delButton">
+        </div>
+    }
+
+
+
+
+
+}
+<br />
+
+<input type="submit" name="action" value="add">
+<input type="submit" name="action" value="view">
+
+
+
