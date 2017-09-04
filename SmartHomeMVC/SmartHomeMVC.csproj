@@ -56,10 +56,6 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NewSmartHome, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2dac6cd98feb0277, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NewSmartHome\v4.0_1.0.0.0__2dac6cd98feb0277\NewSmartHome.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +119,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Model\App.config" />
+    <Content Include="Model\ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -164,11 +162,42 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\Delegates\WriteLogDelegate.cs" />
+    <Compile Include="Model\DeviceClasses\Conditioner.cs" />
+    <Compile Include="Model\DeviceClasses\Device.cs" />
+    <Compile Include="Model\DeviceClasses\Fridge.cs" />
+    <Compile Include="Model\DeviceClasses\MWOven.cs" />
+    <Compile Include="Model\DeviceClasses\Oven.cs" />
+    <Compile Include="Model\DeviceClasses\Radio.cs" />
+    <Compile Include="Model\DeviceClasses\RadioLamp.cs" />
+    <Compile Include="Model\DeviceInterfaces\IChannelable.cs" />
+    <Compile Include="Model\DeviceInterfaces\IDoorable.cs" />
+    <Compile Include="Model\DeviceInterfaces\IFridgeable.cs" />
+    <Compile Include="Model\DeviceInterfaces\ILightable.cs" />
+    <Compile Include="Model\DeviceInterfaces\IModeable.cs" />
+    <Compile Include="Model\DeviceInterfaces\IVolumeable.cs" />
+    <Compile Include="Model\Enums\FanMode.cs" />
+    <Compile Include="Model\Enums\FridgeMode.cs" />
+    <Compile Include="Model\Enums\LampMode.cs" />
+    <Compile Include="Model\Enums\MWOvenMode.cs" />
+    <Compile Include="Model\LowLevelClasses\AudioPlayer.cs" />
+    <Compile Include="Model\LowLevelClasses\ColdGenerator.cs" />
+    <Compile Include="Model\LowLevelClasses\Fan.cs" />
+    <Compile Include="Model\LowLevelClasses\Lamp.cs" />
+    <Compile Include="Model\LowLevelInterfaces\IBrightnesable.cs" />
+    <Compile Include="Model\LowLevelInterfaces\IFanable.cs" />
+    <Compile Include="Model\LowLevelInterfaces\ILowLevelVolumeable.cs" />
+    <Compile Include="Model\LowLevelInterfaces\ITemperatureable.cs" />
+    <Compile Include="Model\Program.cs" />
+    <Compile Include="Model\ServiceClasses\DeviceCreator.cs" />
+    <Compile Include="Model\ServiceClasses\FileOperations.cs" />
+    <Compile Include="Model\ServiceClasses\SerializerDictionaryXML.cs" />
+    <Compile Include="Model\ServiceClasses\WriteLogToFile.cs" />
+    <Compile Include="Model\UI\ConsoleUIDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,6 +1,6 @@
-﻿using NewSmartHome.DeviceClasses;
-using NewSmartHome.Interfaces;
-using NewSmartHome.ServiceClasses;
+﻿using SmartHomeMVC.Model.DeviceClasses;
+using SmartHomeMVC.Model.Interfaces;
+using SmartHomeMVC.Model.ServiceClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
