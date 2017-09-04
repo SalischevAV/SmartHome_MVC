@@ -4,6 +4,7 @@ using SmartHomeMVC.Model.ServiceClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,12 +31,7 @@ namespace SmartHomeMVC.Controllers
             smartHoseDevicesDictionary.Add("Seiko", myDCreator.CreateDevice("radiolamp"));
 
 
-            Fridge f = new Fridge();
-            if (f is IModeable)
-            {
-                f = null;
-            }
-
+           
 
             Session["Devices"] = smartHoseDevicesDictionary;
             return View(smartHoseDevicesDictionary);
