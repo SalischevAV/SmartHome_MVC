@@ -11,6 +11,15 @@
 }
 <h2>Index</h2>
 
+<div class="addDevice">
+    @using (Html.BeginForm("AddDevice", "SmartHome"))
+    {
+        <input type="text" placeholder="имя устройства" name="nameOfDevice" />
+        @Html.DropDownList("typeOfDevice", new SelectList(new string[] { "conditioner", "fridge", "mwoven", "oven", "radio", "radiolamp" }), "Типы устройств");
+        <input type="submit" value="Add" />
+    }
+</div>
+
 @using (Html.BeginForm("Index", "SmartHome"))
 {
     foreach (var item in Model)
@@ -18,27 +27,32 @@
     {
         <div class="smartDeviceDrow">
             <span>Устройство: @item.Value.GetType().Name  <br />Название: @item.Key</span>
+
+            <span class="stateDev">Состояние устройства: @item.Value.ToString()</span>
             <br />
-            <input type="submit" class="powerState" value="Power">
-            @*<input type="submit" name="power" value="power" class="powerState">*@
-            @* <a href="/SmartHome/Index/samePar" class="powerState">@item.Key</a><br /><br />*@
+            @using (Html.BeginForm("Power", "SmartHome"))
+            {
+                <input type="hidden" name="deviceName" value="@item.Key" />
+                <input type="submit" class="powerState" value="Power">
+            }
+
 
             @if (item.Value is IChannelable)
             {
                 <div class="DivChannel">
                     Канал:
                     @using (Html.BeginForm())
-                    {
+                        {
                         <script>
                             function bindingRane() {
-                                channelValue = document.getElementById("@("channelRangeValue" + item.Key)").value;
+                                channelValue+item.Key = document.getElementById("@("channelRangeValue" + item.Key)").value;
                                 textBox = document.getElementById("@("channelTextValue" + item.Key)");
                                 textBox.value = channelValue;
                             }
                         </script>
                         <input type="range" min="0" max="100" step="1" name="Channel" value="0" id="@("channelRangeValue" + item.Key)" oninput="bindingRane()">
                         <input type="text" class="channelValue" id="@("channelTextValue" + item.Key)" value="0">
-
+                        <input type="hidden" name="deviceName" value="@item.Key" />
 
                     }
                 </div>
@@ -47,8 +61,9 @@
             @if (item.Value is IDoorable)
             {
                 <div class="DivDoor">
-                    @using (Html.BeginForm())
-                    {
+                    @using (Html.BeginForm("Door", "SmartHome"))
+                        {
+                        <input type="hidden" name="deviceName" value="@item.Key" />
                         <input type="submit" class="doorState" value="Door">
                         <input type="text" id="@(item.Key+"Lamp")" class="lamp" />
                     }
@@ -61,7 +76,8 @@
                 <div class="DivFridge">
                     Температура:
                     @using (Html.BeginForm())
-                    {
+                        {
+                        <input type="hidden" name="deviceName" value="@item.Key" />
                         <input type="range" min="0" max="100" step="1" name="Temp" value="0" id=@("tempRange" + item.Key) oninput="sizePic()">
                         <input type="text" class="tempValue" id=@("tempValue" + item.Key)>
                     }
@@ -73,53 +89,54 @@
             {
                 <div class="DivLight">
                     @using (Html.BeginForm())
-                    {
-                    @Html.RadioButton("color", "red")
-                    <br />
-                    @Html.RadioButton("color", "blue")
-                    <br />
-                    @Html.RadioButton("color", "green")
-                    <br />
-                    @Html.RadioButton("color", "green")
-                    <br />
-                    <input type="submit" value="Set Light">
+                        {
+                        @Html.RadioButton("color", "red")
+                        <br />
+                        @Html.RadioButton("color", "blue")
+                        <br />
+                        @Html.RadioButton("color", "green")
+                        <br />
+                        @Html.RadioButton("color", "green")
+                        <br />
+                        <input type="hidden" name="deviceName" value="@item.Key" />
+                        <input type="submit" value="Set Light">
                     }
                 </div>
 
-                    }
+            }
 
             @if (item.Value is IModeable)
             {
                 <div class="DivMode">
-                    @using (Html.BeginForm())
-                    {
-                        Type t = item.Value.GetType();
-                        PropertyInfo[] pI = t.GetProperties();
-                        Type t2 = t;
-
-                        foreach (PropertyInfo p in pI)
+                    @using (Html.BeginForm("SetMode", "SmartHome"))
                         {
-                            string[] strArr = (Convert.ToString(p.PropertyType)).ToLower().Split('.');
-                            if ((strArr[strArr.Length - 1]).ToLower().Contains("mode"))
+                            Type t = item.Value.GetType();
+                            PropertyInfo[] pI = t.GetProperties();
+                            Type t2 = t;
+
+                            foreach (PropertyInfo p in pI)
                             {
-                                t2 = p.PropertyType;
+                                string[] strArr = (Convert.ToString(p.PropertyType)).ToLower().Split('.');
+                                if ((strArr[strArr.Length - 1]).ToLower().Contains("mode"))
+                                {
+                                    t2 = p.PropertyType;
+                                }
+
                             }
 
-                        }
 
-
-                        if (t2 != t)
-                        {
-                            FieldInfo[] t2Fields = t2.GetFields();
-                            List<FieldInfo> listAviableMods = new List<FieldInfo>();
-                            listAviableMods.AddRange(t2Fields);
-                            int i = 1;
-                            foreach (var res in listAviableMods)
+                            if (t2 != t)
                             {
-                                if (!res.Name.Contains("value__"))
+                                FieldInfo[] t2Fields = t2.GetFields();
+                                List<FieldInfo> listAviableMods = new List<FieldInfo>();
+                                listAviableMods.AddRange(t2Fields);
+                                int i = 1;
+                                foreach (var res in listAviableMods)
                                 {
-                                    i++;
-                                    @Html.RadioButton("Mode", res.Name, new { id = item.Key + "Mode" + res.Name })
+                                    if (!res.Name.Contains("value__"))
+                                    {
+                                        i++;
+                                    @Html.RadioButton("mode", res.Name, new { id = item.Key + "Mode" + res.Name })
                                     @res.Name
                                     <br />
 
@@ -127,7 +144,8 @@
 
                             }
                         }
-                        <input type="submit" value="Set Mode">
+                        <input type="hidden" name="deviceName" value="@item.Key" />
+                        <input type="submit" value="Set Mode" />
 
                     }
 
@@ -139,7 +157,7 @@
                 <div class="DivVolume">
                     Громкость:
                     @using (Html.BeginForm())
-                    {
+                        {
                         <input type="range" min="0" max="100" step="1" name="Volume" value="0" id=@("volumeRange" + item.Key) oninput="sizePic()">
                         <input type="text" class="volumeValue" id=@("volumeValue" + item.Key)>
                     }
@@ -147,9 +165,12 @@
 
             }
 
-
-            <input type="submit" name="del" value="удалить" class="delButton">
+            @using (Html.BeginForm("Delete", "SmartHome"))
+            {
+                <input type="hidden" name="deviceName" value="@item.Key" />
+                <input type="submit" name="del" value="удалить" class="delButton">
+            }
         </div>
 
-                }
-            }
+    }
+}
