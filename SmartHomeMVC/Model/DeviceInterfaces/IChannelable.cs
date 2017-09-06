@@ -2,7 +2,7 @@
 {
     public interface IChannelable
     {
-        int Channel { set; get; }
+        int Channel { get; }//По хорошему его нельзя сетать
         string SetChannel(int settingChannel);
         string AdjustChannel(bool increase);
 }

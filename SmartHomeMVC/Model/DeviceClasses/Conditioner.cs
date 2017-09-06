@@ -22,7 +22,7 @@ namespace SmartHomeMVC.Model.DeviceClasses
         {
             set
             {
-                if (value <= 30 && value >= 16) { temp = value; }
+                if (State && value <= 30 && value >= 16) { temp = value; }
             }
             get { return temp; }
         }

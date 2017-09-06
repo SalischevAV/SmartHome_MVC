@@ -6,6 +6,7 @@
 @using System.Reflection
 @model System.Collections.Generic.IDictionary<string, Device>
 
+
 @{
     ViewBag.Title = "Index";
 }
@@ -39,19 +40,14 @@
 
             @if (item.Value is IChannelable)
             {
+              
                 <div class="DivChannel">
-                    Канал:
-                    @using (Html.BeginForm())
+                    Канал:<label class="infoLabel">ХЗ</label>
+                    @using (Html.BeginForm("Channel", "SmartHome"))
                         {
-                        <script>
-                            function bindingRane() {
-                                channelValue+item.Key = document.getElementById("@("channelRangeValue" + item.Key)").value;
-                                textBox = document.getElementById("@("channelTextValue" + item.Key)");
-                                textBox.value = channelValue;
-                            }
-                        </script>
-                        <input type="range" min="0" max="100" step="1" name="Channel" value="0" id="@("channelRangeValue" + item.Key)" oninput="bindingRane()">
-                        <input type="text" class="channelValue" id="@("channelTextValue" + item.Key)" value="0">
+                        
+                        <input type="submit" name="action" value="-" /><input type="submit" name="action" value="+" />
+                        <input type="text" value="0" class="infoText" name="channel" /><input type="submit" name="action" value="set" />
                         <input type="hidden" name="deviceName" value="@item.Key" />
 
                     }
@@ -75,11 +71,11 @@
             {
                 <div class="DivFridge">
                     Температура:
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Temperature", "SmartHome"))
                         {
+                        <input type="submit" name="action" value="-" /><input type="submit" name="action" value="+" />
+                        <input type="text" value="0" class="infoText" name="temp" /><input type="submit" name="action" value="set" />
                         <input type="hidden" name="deviceName" value="@item.Key" />
-                        <input type="range" min="0" max="100" step="1" name="Temp" value="0" id=@("tempRange" + item.Key) oninput="sizePic()">
-                        <input type="text" class="tempValue" id=@("tempValue" + item.Key)>
                     }
                 </div>
 
@@ -88,15 +84,15 @@
             @if (item.Value is ILightable)
             {
                 <div class="DivLight">
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Light", "SmartHome"))
                         {
-                        @Html.RadioButton("color", "red")
+                        @Html.RadioButton("settingBrightness", "off")<label>off</label>
                         <br />
-                        @Html.RadioButton("color", "blue")
+                        @Html.RadioButton("settingBrightness", "dim")<label>dim</label>
                         <br />
-                        @Html.RadioButton("color", "green")
+                        @Html.RadioButton("settingBrightness", "medium")<label>medium</label>
                         <br />
-                        @Html.RadioButton("color", "green")
+                        @Html.RadioButton("settingBrightness", "hight")<label>hight</label>
                         <br />
                         <input type="hidden" name="deviceName" value="@item.Key" />
                         <input type="submit" value="Set Light">
@@ -156,10 +152,10 @@
             {
                 <div class="DivVolume">
                     Громкость:
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Volume", "SmartHome"))
                         {
-                        <input type="range" min="0" max="100" step="1" name="Volume" value="0" id=@("volumeRange" + item.Key) oninput="sizePic()">
-                        <input type="text" class="volumeValue" id=@("volumeValue" + item.Key)>
+                        <input type="submit" name="action" value="-" /><input type="submit" name="action" value="+" />                        
+                        <input type="hidden" name="deviceName" value="@item.Key" />
                     }
                 </div>
 
@@ -174,3 +170,29 @@
 
     }
 }
+
+
+
+
+
+@*@if (item.Value is IChannelable)
+                {
+        <div class="DivChannel">
+            Канал:
+            @using (Html.BeginForm())
+            {
+                <script>
+                                function bindingRane() {
+                                    channelValue+item.Key = document.getElementById("@("channelRangeValue" + item.Key)").value;
+                                    textBox = document.getElementById("@("channelTextValue" + item.Key)");
+                                    textBox.value = channelValue;
+                                }
+                </script>
+                            <input type="range" min="0" max="100" step="1" name="Channel" value="0" id="@("channelRangeValue" + item.Key)" oninput="bindingRane()">
+                            <input type="text" class="channelValue" id="@("channelTextValue" + item.Key)" value="0">
+                            <input type="hidden" name="deviceName" value="@item.Key" />
+
+            }
+        </div>
+
+    }*@

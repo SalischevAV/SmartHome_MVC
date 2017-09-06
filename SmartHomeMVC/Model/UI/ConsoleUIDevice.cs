@@ -22,7 +22,7 @@ namespace SmartHomeMVC.Model.UI
             {
                 Console.WriteLine("Enter channel number (1-100): ");
                 int setChannel;
-                if (Int32.TryParse(Console.ReadLine(), out setChannel)) ;
+                if (Int32.TryParse(Console.ReadLine(), out setChannel));
                 sameDevice.SetChannel(setChannel);
                 if (actWithDevice != null)
                 {
@@ -74,7 +74,7 @@ namespace SmartHomeMVC.Model.UI
             {
                 Console.WriteLine("Enter temperature value: ");
                 int setTemp;
-                if (Int32.TryParse(Console.ReadLine(), out setTemp)) ;
+                if (Int32.TryParse(Console.ReadLine(), out setTemp));
                 sameDevice.SetTemp(setTemp);
             }
             else if (Message.Contains("increase")) { sameDevice.IncrTemp(); }

@@ -12,13 +12,25 @@ namespace SmartHomeMVC.Model.DeviceClasses
     public class Radio : Device, IVolumeable, IChannelable
     {
         public ILowLevelVolumeable SoundController { set; get; }
-        public int Volume { set; get; }
+        public int Volume
+        {
+            private set
+            {
+                if (State && value <= 100 && value > 0)
+                {
+                    volume = value;
+                }
+
+            }
+            get { return volume; }
+        }
         private int channel;
+        private int volume;
         public int Channel
         {
-            set
+            private set
             {
-                if (value <= 100 && value > 0)
+                if (State && value <= 100 && value > 0)
                 {
                     channel = value;
                 }
@@ -28,7 +40,7 @@ namespace SmartHomeMVC.Model.DeviceClasses
         }
         public Radio()
         {
-                
+            Channel = 0;
         }
         public Radio(ILowLevelVolumeable soundController)
         {
